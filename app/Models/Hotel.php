@@ -10,6 +10,12 @@ class Hotel extends Model
     protected $table ="hotels";
     use HasFactory;
 
+    public function rooms()
+    {
+        return $this->hasMany(Room::class);
+    }
+
+
     protected $fillable =[
         'name',
         'zip_code',

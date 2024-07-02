@@ -1,11 +1,71 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import DangerButton from '@/Components/DangerButton.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { ref, watchEffect} from 'vue';
+import Modal from '@/Components/Modal.vue';
 
-defineProps({ hotels: Object })
+
+const props = defineProps({
+    hotels: Object,
+    success: String,
+});
 
 
+const form = useForm({})
+
+const showConfirmDeleteModal = ref(false)
+const deleteHotelId = ref(null);
+
+// Abrir o modal para confirmar a exclusão
+const confirmDelete = (hotelId)=>{
+    showConfirmDeleteModal.value = true;
+    deleteHotelId.value = hotelId;
+}
+
+// função para fechar o Modal
+const closeModal = ()=>{
+    showConfirmDeleteModal.value = false;
+}
+
+// Função que irá deletar o hotel e seus quartos se confirmado o Modal
+const deleteHotel = (deleteHotelId) => {
+    if (deleteHotelId) {
+        form.delete(route('hotels.destroy', deleteHotelId), {
+            onSuccess: () => {
+                closeModal();
+            }
+        });
+    }
+};
+
+
+
+
+// Mensagem de Feedback de error ou sucess
+const show = ref(false);
+const message = ref('');
+
+watchEffect(() => {
+  if (message.value) {
+    show.value = true;
+    setTimeout(() => {
+      show.value = false;
+      message.value = '';
+    }, 4000); // Tempo em milissegundos antes do card de feedback desaoarecer
+  }
+});
+
+
+
+// Observa a propriedade para exibir a mensagem de sucesso
+watchEffect(() => {
+  if (props.success) {
+    message.value = props.success;
+  }
+});
 </script>
 
 <template>
@@ -27,11 +87,17 @@ defineProps({ hotels: Object })
 
                     </PrimaryButton>
                     </Link>
-
+                </div>
+                <!-- Mensagem de Feeback de Erro ou Sucesso -->
+                <div v-if="show" class="fixed top-20 right-5 z-50">
+                    <div class="bg-green-500 text-white rounded-md px-4 py-2 shadow-lg">
+                      {{ message }}
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- Tabela de Hotéis -->
         <div class="py-5">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -94,11 +160,12 @@ defineProps({ hotels: Object })
                                                             class="text-green-600 hover:text-green-900">
                                                         Visualizar
                                                         </Link>
+
                                                         <span class="mx-2">|</span>
-                                                            <Link :href="route('hotels.destroy', hotel.id)" method="DELETE"
-                                                                class="text-red-600 hover:text-red-900">
-                                                                    Deletar
-                                                            </Link>
+                                                         <!-- Abre um modal para confirmar a exclusão -->
+                                                            <button @click="confirmDelete(hotel.id)" class="text-red-600 hover:text-red-900">
+                                                                Deletar
+                                                            </button>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -112,5 +179,23 @@ defineProps({ hotels: Object })
                 </div>
             </div>
         </div>
+
+         <!-- Modal de confirmação de exclusão de um Hotel e seus quartos-->
+         <Modal :show="showConfirmDeleteModal" @close="closeModal">
+            <div class="p-6">
+                <h2 class="text-lg font-semibold text-slate-800">
+                    Ao deletar este hotel não será possível recupera-lo, e seus quartos vinculados também serão apagados. Tem certeza em continuar ?
+                </h2>
+                <div class="mt-6 flex space-x-4">
+                    <DangerButton @click="deleteHotel(deleteHotelId)">
+                        Deletar
+                    </DangerButton>
+                    <SecondaryButton @click="closeModal">
+                        Cancelar
+                    </SecondaryButton>
+                </div>
+            </div>
+        </Modal>
+
     </AuthenticatedLayout>
 </template>

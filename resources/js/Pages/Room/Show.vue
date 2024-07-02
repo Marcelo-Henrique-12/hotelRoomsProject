@@ -74,8 +74,11 @@ const form = useForm({
                         </div>
 
                         <div class="flex items-center justify-around mt-6">
-                            <PrimaryButton class="py-4 px-6">
+                            <SecondaryButton class="py-4 px-6">
                                 <Link :href="route('rooms.index')">Voltar</Link>
+                            </SecondaryButton>
+                            <PrimaryButton class="py-4 px-6">
+                                <Link :href="route('rooms.edit',props.room.id)">Editar</Link>
                             </PrimaryButton>
                         </div>
                 </div>

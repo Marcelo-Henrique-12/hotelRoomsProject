@@ -18,6 +18,7 @@ class RoomController extends Controller
         $rooms = Room::with('hotel')->orderBy('name')->get();
         return Inertia::render('Room/Index', [
             'rooms' => $rooms,
+            'success' => session('success'),
         ]);
     }
 

@@ -18,6 +18,7 @@ class HotelController extends Controller
         $hotels = Hotel::orderBy('name')->get();
         return Inertia::render('Hotel/Index', [
             'hotels' => $hotels,
+            'success' => session('success'),
         ]);
     }
 

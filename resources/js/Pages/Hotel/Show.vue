@@ -2,6 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
 import { ref, defineProps } from 'vue';
 import axios from 'axios';
 import { mask } from 'vue-the-mask';
@@ -34,9 +35,9 @@ const form = useForm({
             <h2 class="font-semibold text-xl text-gray-800 leading-tight text-center">Visualizar Hotel</h2>
         </template>
 
-        <div class="py-12 flex">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-20">
+        <div class="py-12 flex justify-center">
+            <div class="max-w-7xl w-full sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-20 lg:p-20">
                     <h2 class="font-semibold text-xl text-gray-800 leading-tight text-center">Hotel</h2>
                     <div class="flex flex-wrap -mx-3 mb-6">
                         <div class="w-full px-3">
@@ -122,13 +123,21 @@ const form = useForm({
                         </div>
                     </div>
 
-                    <PrimaryButton class="py-4 px-6">
-                        <Link :href="route('hotels.index')">
-                        Voltar
-                        </Link>
-                    </PrimaryButton>
+                    <div class="flex items-center justify-around mt-6">
+                        <SecondaryButton class="py-4 px-6">
+                            <Link :href="route('hotels.index')">
+                            Voltar
+                            </Link>
+                        </SecondaryButton>
+                        <PrimaryButton class="py-4 px-6">
+                            <Link :href="route('hotels.edit',props.hotel.id)">
+                            Editar
+                            </Link>
+                        </PrimaryButton>
+                    </div>
                 </div>
 
+                <!-- Tabela de Quartos Vinculados -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-20 mt-5">
 
                     <h2 class="font-semibold text-xl text-gray-800 leading-tight text-center mb-5">Quartos vinculados</h2>
@@ -148,7 +157,7 @@ const form = useForm({
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                <!-- Listagem dos hotéis cadastrados -->
+                                <!-- Listagem dos quartos vinculados ao hotel -->
                                 <template v-for="room in rooms" :key="room.id">
                                     <tr>
                                         <td

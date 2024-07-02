@@ -185,7 +185,7 @@ const formatZipCode = () => {
                                 </Link>
                             </SecondaryButton>
                             <PrimaryButton class="py-4 px-6" type="submit">
-                                Cadastrar
+                                Salvar
                             </PrimaryButton>
                         </div>
 

@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\HotelRequest;
+use App\Models\Hotel;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class HotelController extends Controller
 {
@@ -11,7 +15,10 @@ class HotelController extends Controller
      */
     public function index()
     {
-        //
+        $hotels = Hotel::orderBy('name')->get();
+        return Inertia::render('Hotel/Index', [
+            'hotels' => $hotels,
+        ]);
     }
 
     /**
@@ -19,15 +26,17 @@ class HotelController extends Controller
      */
     public function create()
     {
-        //
+
+        return Inertia::render('Hotel/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(HotelRequest $request)
     {
-        //
+        Hotel::create($request->validated());
+        return redirect()->route('hotels.index')->with('success', 'Hotel cadastrado com sucesso!');
     }
 
     /**
@@ -35,7 +44,10 @@ class HotelController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $hotel = Hotel::findOrFail($id);
+        return Inertia::render('Hotel/Show', [
+            'hotel' => $hotel,
+        ]);
     }
 
     /**
@@ -43,7 +55,10 @@ class HotelController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $hotel = Hotel::findOrFail($id);
+        return Inertia::render('Hotel/Edit', [
+            'hotel' => $hotel,
+        ]);
     }
 
     /**
@@ -59,6 +74,8 @@ class HotelController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $hotel = Hotel::findOrFail($id);
+        $hotel->delete();
+        return redirect()->route('hotels.index')->with('success', 'Hotel deletado com sucesso!');
     }
 }

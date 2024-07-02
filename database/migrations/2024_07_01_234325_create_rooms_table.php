@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->required();
             $table->text('description')->required();
-            $table->foreignId('hotel_id')->constrained('hotels');
+            $table->foreignId('hotel_id')->constrained('hotels')->onDelete('cascade');;
             $table->timestamps();
 
         });

@@ -22,7 +22,7 @@ class HotelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required','regex:/^[\pL\s]+$/u','max:191', Rule::unique('hotels', 'name')],
+            'name' => ['required','regex:/^[\pL\s]+$/u','max:191', Rule::unique('hotels', 'name')->ignore($this->hotel)],
             'zip_code' => ['required', 'size:8'],
             'address' => ['required', 'string', 'min:3', 'max:255'],
             'city' => ['required', 'string', 'min:3', 'max:255'],

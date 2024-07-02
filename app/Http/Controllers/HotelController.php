@@ -45,8 +45,10 @@ class HotelController extends Controller
     public function show(string $id)
     {
         $hotel = Hotel::findOrFail($id);
+        $rooms = $hotel->rooms()->orderBy('name')->get();
         return Inertia::render('Hotel/Show', [
             'hotel' => $hotel,
+            'rooms' => $rooms,
         ]);
     }
 

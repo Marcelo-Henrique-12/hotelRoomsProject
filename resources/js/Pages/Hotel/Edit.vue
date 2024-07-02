@@ -61,7 +61,7 @@ const submit = () => {
     form.zip_code = form.zip_code.replace(/\D/g, '');
 
     //submete o formulário
-    form.post(route('hotels.store'), {
+    form.put(route('hotels.update', props.hotel.id), {
         onFinish: () => {
             if (Object.keys(form.errors).length === 0) {
                 form.reset();  // Irá redefir o formulário se não houver erros para manter os dados preenchidos
@@ -90,11 +90,10 @@ const formatZipCode = () => {
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight text-center">Editar Hotel</h2>
         </template>
-
-        <div class="py-12 flex">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-20">
-                    <form class="w-full max-w-lg" @submit.prevent="submit">
+        <div class="py-12 flex justify-center">
+            <div class="max-w-7xl w-full sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-20 lg:p-20">
+                    <form class="w-full " @submit.prevent="submit">
                         <div class="flex flex-wrap -mx-3 mb-6">
                             <div class="w-full px-3">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"

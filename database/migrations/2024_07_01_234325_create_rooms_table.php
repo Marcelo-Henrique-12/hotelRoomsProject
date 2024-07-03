@@ -10,15 +10,15 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('rooms', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->required();
-            $table->text('description')->required();
-            $table->foreignId('hotel_id')->constrained('hotels')->onDelete('cascade');;
-            $table->timestamps();
+        {
+            Schema::create('rooms', function (Blueprint $table) {
+                $table->id();
+                $table->string('name')->required();
+                $table->text('description')->required();
+                $table->foreignId('hotel_id')->constrained('hotels')->onDelete('cascade');;
+                $table->timestamps();
 
-        });
+            });
     }
 
     /**

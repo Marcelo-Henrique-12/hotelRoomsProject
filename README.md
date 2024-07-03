@@ -64,6 +64,7 @@ Implementado com o laravel 11  e php 8.2, utilizando o Vue.Js e Tailwind CSS par
 
     9° - Inicie o servidor de desenvolvimento (opcional)
 
+        npm run dev
         php artisan serve
 
 

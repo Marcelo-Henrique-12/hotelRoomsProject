@@ -4,27 +4,28 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { ref,watchEffect  } from 'vue';
+import { ref, watchEffect } from 'vue';
 import Modal from '@/Components/Modal.vue';
 
 
 const props = defineProps({
     rooms: Object,
     success: String,
+    filters: Object,
 });
 const form = useForm({})
 
 const showConfirmDeleteModal = ref(false)
 const deleteRoomId = ref(null);
 // Abrir o modal para confirmar a exclusão
-const confirmDelete = (roomId)=>{
+const confirmDelete = (roomId) => {
     showConfirmDeleteModal.value = true;
     deleteRoomId.value = roomId;
 
 }
 
 // função para fechar o Modal
-const closeModal = ()=>{
+const closeModal = () => {
     showConfirmDeleteModal.value = false;
 }
 
@@ -46,23 +47,36 @@ const show = ref(false);
 const message = ref('');
 
 watchEffect(() => {
-  if (message.value) {
-    show.value = true;
-    setTimeout(() => {
-      show.value = false;
-      message.value = '';
-    }, 4000); // Tempo em milissegundos antes do card de feedback desaoarecer
-  }
+    if (message.value) {
+        show.value = true;
+        setTimeout(() => {
+            show.value = false;
+            message.value = '';
+        }, 4000); // Tempo em milissegundos antes do card de feedback desaoarecer
+    }
 });
 
 
 
 // Observa a propriedade para exibir a mensagem de sucesso
 watchEffect(() => {
-  if (props.success) {
-    message.value = props.success;
-  }
+    if (props.success) {
+        message.value = props.success;
+    }
 });
+
+// Barra de pesquisar
+const filters = ref({
+    name:  props.filters.name || '',
+    hotel:  props.filters.hotel || '',
+});
+
+// Limpar os campos de pesquisa, mostrar todos os dados
+const clearFilters = () => {
+    filters.value.name = '';
+    filters.value.hotel = '';
+    form.get(route('rooms.index'), { name: '', hotel: '' });
+};
 </script>
 
 <template>
@@ -71,7 +85,7 @@ watchEffect(() => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Quartos Cadastrados</h2>
+            <h2 class="flex justify-center font-semibold text-xl text-gray-800 leading-tight">Quartos Cadastrados</h2>
         </template>
 
         <div class="py-5">
@@ -87,19 +101,41 @@ watchEffect(() => {
                     </Link>
 
                 </div>
-               <!-- Mensagem de Feeback de Erro ou Sucesso -->
+                <!-- Mensagem de Feeback de Erro ou Sucesso -->
                 <div v-if="show" class="fixed top-20 right-5 z-50">
                     <div class="bg-green-500 text-white rounded-md px-4 py-2 shadow-lg">
-                      {{ message }}
+                        {{ message }}
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Tabela de quartos -->
         <div class="py-5">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-4 mb-4">
+
+
+                <!-- Barra de Pesquisa -->
+                    <div class="flex justify-start mb-10">
+                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Pesquisar Quarto</h2>
+                    </div>
+
+                    <div class="mb-10">
+                        <form
+                            @submit.prevent="$inertia.get(route('rooms.index'), { name: filters.name, hotel: filters.hotel })">
+                            <div class="flex space-x-4">
+                                <input v-model="filters.name" type="text" placeholder="Nome do Quarto"
+                                    class="border border-gray-300 p-2 flex-grow rounded-md">
+                                <input v-model="filters.hotel" type="text" placeholder="Nome do Hotel"
+                                    class="border border-gray-300 p-2 flex-grow rounded-md">
+                                <SecondaryButton type="button" @click="clearFilters" class="py-2 px-10 bg-gray-300">
+                                    Limpar
+                                    campos</SecondaryButton>
+                                <PrimaryButton type="submit" class="py-2 px-10">Pesquisar</PrimaryButton>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Tabela de quartos -->
                     <div class="flex flex-col">
                         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -110,10 +146,6 @@ watchEffect(() => {
                                                 <th scope="col"
                                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                     Nome
-                                                </th>
-                                                <th scope="col"
-                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    Descrição
                                                 </th>
                                                 <th scope="col"
                                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -134,28 +166,26 @@ watchEffect(() => {
                                                         {{ room.name }}
                                                     </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        {{ room.description }}
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                         {{ room.hotel.name }}
                                                     </td>
 
-                                                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                                    <td
+                                                        class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                                                         <!-- Ações com o Quarto -->
                                                         <div class="flex justify-center">
-                                                        <Link :href="route('rooms.edit', room.id)"
-                                                            class="text-indigo-600 hover:text-indigo-900">
-                                                        Editar
-                                                        </Link>
-                                                        <span class="mx-2">|</span>
+                                                            <Link :href="route('rooms.edit', room.id)"
+                                                                class="text-indigo-600 hover:text-indigo-900">
+                                                            Editar
+                                                            </Link>
+                                                            <span class="mx-2">|</span>
 
-                                                        <Link :href="route('rooms.show', room.id)"
-                                                            class="text-green-600 hover:text-green-900">
-                                                        Visualizar
-                                                        </Link>
-                                                        <span class="mx-2">|</span>
+                                                            <Link :href="route('rooms.show', room.id)"
+                                                                class="text-green-600 hover:text-green-900">
+                                                            Visualizar
+                                                            </Link>
+                                                            <span class="mx-2">|</span>
 
-                                                         <!-- Abre um modal para confirmar a exclusão -->
+                                                            <!-- Abre um modal para confirmar a exclusão -->
                                                             <button @click="() => confirmDelete(room.id)"
                                                                 class="text-red-600 hover:text-red-900">
                                                                 Deletar
@@ -174,8 +204,8 @@ watchEffect(() => {
                 </div>
             </div>
         </div>
-         <!-- Modal de confirmação de exclusão de um quarto-->
-         <Modal :show="showConfirmDeleteModal" @close="closeModal">
+        <!-- Modal de confirmação de exclusão de um quarto-->
+        <Modal :show="showConfirmDeleteModal" @close="closeModal">
             <div class="p-6">
                 <h2 class="text-lg font-semibold text-slate-800">
                     Ao deletar este quarto não será possível recuperá-lo. Tem certeza que deseja continuar?

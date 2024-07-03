@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\HotelRequest;
 use App\Models\Hotel;
+use Error;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -13,12 +14,27 @@ class HotelController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $hotels = Hotel::orderBy('name')->get();
+        
+        $query = Hotel::orderBy('name');
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
+
+        if ($request->filled('city')) {
+            $query->where('city', 'like', '%' . $request->city . '%');
+        }
+
+        if ($request->filled('state')) {
+            $query->where('state', 'like', '%' . $request->state . '%');
+        }
+
+        $hotels = $query->get();
         return Inertia::render('Hotel/Index', [
             'hotels' => $hotels,
             'success' => session('success'),
+            'filters' => $request->only(['name','city','state']),
         ]);
     }
 

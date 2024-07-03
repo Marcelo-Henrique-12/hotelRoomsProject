@@ -11,6 +11,7 @@ import Modal from '@/Components/Modal.vue';
 const props = defineProps({
     hotels: Object,
     success: String,
+    filters: Object,
 });
 
 
@@ -66,6 +67,22 @@ watchEffect(() => {
     message.value = props.success;
   }
 });
+
+
+// Barra de pesquisar
+const filters = ref({
+    name:  props.filters.name || '',
+    city:  props.filters.city || '',
+    state:  props.filters.state || '',
+});
+
+// Limpar os campos de pesquisa, mostrar todos os dados
+const clearFilters = () => {
+    filters.value.name = '';
+    filters.value.city = '';
+    filters.value.state = '';
+    form.get(route('hotels.index'), { name: '', city: '',state:'' });
+};
 </script>
 
 <template>
@@ -74,7 +91,7 @@ watchEffect(() => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Hoteis Cadastrados</h2>
+            <h2 class="flex justify-center font-semibold text-xl text-gray-800 leading-tight">Hoteis Cadastrados</h2>
         </template>
         <div class="py-5">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -97,10 +114,37 @@ watchEffect(() => {
             </div>
         </div>
 
-        <!-- Tabela de Hotéis -->
         <div class="py-5">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-4 mb-4">
+
+
+                    <!-- Barra de Pesquisa -->
+                    <div class="flex justify-start mb-10">
+                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Pesquisar Hotel</h2>
+                    </div>
+                    <div class="mb-10">
+                        <form
+                            @submit.prevent="$inertia.get(route('hotels.index'), { name: filters.name, city: filters.city, state: filters.state  })">
+                            <div class="flex space-x-4">
+                                <input v-model="filters.name" type="text" placeholder="Nome do Hotel"
+                                    class="border border-gray-300 p-2 flex-grow rounded-md">
+                                <input v-model="filters.city" type="text" placeholder="Cidade "
+                                    class="border border-gray-300 p-2 flex-grow rounded-md">
+                                <input v-model="filters.state" type="text" placeholder="Estado"
+                                    class="border border-gray-300 p-2 flex-grow rounded-md">
+
+
+                                <SecondaryButton type="button" @click="clearFilters" class="py-2 px-10 bg-gray-300">
+                                    Limpar
+                                    campos</SecondaryButton>
+                                <PrimaryButton type="submit" class="py-2 px-10">Pesquisar</PrimaryButton>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <!-- Tabela de Hotéis -->
                     <div class="flex flex-col">
                         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">

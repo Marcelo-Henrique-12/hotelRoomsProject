@@ -13,12 +13,24 @@ class RoomController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $rooms = Room::with('hotel')->orderBy('name')->get();
+        $query = Room::with('hotel')->orderBy('name');
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
+
+        if ($request->filled('hotel')) {
+            $query->whereHas('hotel', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->hotel . '%');
+            });
+        }
+
+        $rooms = $query->get();
         return Inertia::render('Room/Index', [
             'rooms' => $rooms,
             'success' => session('success'),
+            'filters' => $request->only(['name', 'hotel']),
         ]);
     }
 
@@ -28,7 +40,7 @@ class RoomController extends Controller
     public function create()
     {
         $hotels = Hotel::orderBy('name')->get();
-        return Inertia::render('Room/Create',[
+        return Inertia::render('Room/Create', [
             'hotels' => $hotels,
         ]);
     }

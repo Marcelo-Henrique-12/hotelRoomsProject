@@ -7,7 +7,7 @@ import { ref,defineProps } from 'vue';
 import axios from 'axios';
 import { mask } from 'vue-the-mask';
 
-
+// Propriedades recebidas do Controller
 const props = defineProps({
     hotel: Object,
 });
@@ -84,7 +84,7 @@ const formatZipCode = () => {
 
 <template>
 
-    <Head title="Hotels" />
+    <Head title="Hotéis" />
 
     <AuthenticatedLayout>
         <template #header>
@@ -93,6 +93,8 @@ const formatZipCode = () => {
         <div class="py-12 flex justify-center">
             <div class="max-w-7xl w-full sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-20 lg:p-20">
+
+                    <!-- Formulário de Edição do Hotel -->
                     <form class="w-full " @submit.prevent="submit">
                         <div class="flex flex-wrap -mx-3 mb-6">
                             <div class="w-full px-3">
@@ -108,6 +110,7 @@ const formatZipCode = () => {
                             </div>
                         </div>
 
+                        <!-- Cep com requisição via API para viacep -->
                         <div class="flex flex-wrap -mx-3 mb-4">
                             <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -125,6 +128,9 @@ const formatZipCode = () => {
                                 <small v-if="cepError" class="text-red-500">{{ cepError }}</small>
                             </div>
 
+                            <!-- Quando digitar o Cep, irá fazer a requisição e retornar os dados de endereço abaixo preenchidos caso encontrar,
+                             caso contrário irá retornar um erro -->
+                             
                             <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                     for="city">

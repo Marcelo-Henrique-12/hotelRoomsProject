@@ -7,7 +7,7 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import { ref, watchEffect } from 'vue';
 import Modal from '@/Components/Modal.vue';
 
-
+// Propriedades Recebida do controller
 const props = defineProps({
     rooms: Object,
     success: String,
@@ -81,7 +81,7 @@ const clearFilters = () => {
 
 <template>
 
-    <Head title="Rooms" />
+    <Head title="Quartos" />
 
     <AuthenticatedLayout>
         <template #header>

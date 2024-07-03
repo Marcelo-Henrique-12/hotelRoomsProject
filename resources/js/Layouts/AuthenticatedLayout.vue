@@ -33,10 +33,10 @@ const showingNavigationDropdown = ref(false);
                                     Index
                                 </NavLink>
                                 <NavLink :href="route('hotels.index')" :active="route().current('hotels.*')">
-                                    Hotels
+                                    Hotéis
                                 </NavLink>
                                 <NavLink :href="route('rooms.index')" :active="route().current('rooms.*')">
-                                    Rooms
+                                    Quartos
                                 </NavLink>
                             </div>
 
@@ -71,7 +71,7 @@ const showingNavigationDropdown = ref(false);
                                     </template>
 
                                     <template #content>
-                                        <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
+                                        <DropdownLink :href="route('profile.edit')"> Minha Conta </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             Log Out
                                         </DropdownLink>

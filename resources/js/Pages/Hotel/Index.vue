@@ -8,6 +8,7 @@ import { ref, watchEffect} from 'vue';
 import Modal from '@/Components/Modal.vue';
 
 
+// Propriedades recebidas do Controller
 const props = defineProps({
     hotels: Object,
     success: String,
@@ -17,10 +18,11 @@ const props = defineProps({
 
 const form = useForm({})
 
+// Variáveis para o modal de deletar um hotel
 const showConfirmDeleteModal = ref(false)
 const deleteHotelId = ref(null);
 
-// Abrir o modal para confirmar a exclusão
+// Abrir o modal para confirmar a exclusão do hotel
 const confirmDelete = (hotelId)=>{
     showConfirmDeleteModal.value = true;
     deleteHotelId.value = hotelId;
@@ -55,7 +57,7 @@ watchEffect(() => {
     setTimeout(() => {
       show.value = false;
       message.value = '';
-    }, 4000); // Tempo em milissegundos antes do card de feedback desaoarecer
+    }, 4000); // Tempo em milissegundos antes do card de feedback desaparecer
   }
 });
 
@@ -69,14 +71,14 @@ watchEffect(() => {
 });
 
 
-// Barra de pesquisar
+// Filtros da barra de pesquisa
 const filters = ref({
     name:  props.filters.name || '',
     city:  props.filters.city || '',
     state:  props.filters.state || '',
 });
 
-// Limpar os campos de pesquisa, mostrar todos os dados
+// Limpar os campos de pesquisa e mostrar todos os dados
 const clearFilters = () => {
     filters.value.name = '';
     filters.value.city = '';
@@ -87,7 +89,7 @@ const clearFilters = () => {
 
 <template>
 
-    <Head title="Hotels" />
+    <Head title="Hotéis" />
 
     <AuthenticatedLayout>
         <template #header>
@@ -95,16 +97,17 @@ const clearFilters = () => {
         </template>
         <div class="py-5">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
                 <div class="overflow-hidden sm:rounded-lg">
+                    <!-- Botão para Cadastro de Novo hotel, redireciona para a rota create -->
                     <Link :href="route('hotels.create')"
-                        class="text-sm text-white-600 hover:text-white-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    <PrimaryButton class="ms-4 py-4 px-6">
-
-                        Cadastrar Hotel
-
-                    </PrimaryButton>
+                            class="text-sm text-white-600 hover:text-white-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <PrimaryButton class="ms-4 py-4 px-6">
+                            Cadastrar Hotel
+                        </PrimaryButton>
                     </Link>
                 </div>
+
                 <!-- Mensagem de Feeback de Erro ou Sucesso -->
                 <div v-if="show" class="fixed top-20 right-5 z-50">
                     <div class="bg-green-500 text-white rounded-md px-4 py-2 shadow-lg">

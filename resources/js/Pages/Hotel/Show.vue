@@ -8,6 +8,7 @@ import axios from 'axios';
 import { mask } from 'vue-the-mask';
 
 
+// Propriedades recebidas do Controller
 const props = defineProps({
     hotel: Object,
     rooms: Array,
@@ -28,7 +29,7 @@ const form = useForm({
 
 <template>
 
-    <Head title="Hotels" />
+    <Head title="Hotéis" />
 
     <AuthenticatedLayout>
         <template #header>
@@ -38,6 +39,8 @@ const form = useForm({
         <div class="py-12 flex justify-center">
             <div class="max-w-7xl w-full sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-20 lg:p-20">
+
+                    <!-- Dados do Hotel cadastrado -->
                     <h2 class="font-semibold text-xl text-gray-800 leading-tight text-center">Hotel</h2>
                     <div class="flex flex-wrap -mx-3 mb-6">
                         <div class="w-full px-3">

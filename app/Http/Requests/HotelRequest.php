@@ -21,6 +21,8 @@ class HotelRequest extends FormRequest
      */
     public function rules(): array
     {
+
+        // Regras para os campos de input do formulario de criação e atualização de Hotéis
         return [
             'name' => ['required','regex:/^[\pL\s]+$/u','max:191', Rule::unique('hotels', 'name')->ignore($this->hotel)],
             'zip_code' => ['required', 'size:8'],
@@ -38,6 +40,7 @@ class HotelRequest extends FormRequest
      */
     public function messages(): array
     {
+        // Mensagens de feedbacks em caso de algum input estar contra as regras
         return [
             'name.required' => 'O campo nome é obrigatório.',
             'name.regex' => 'O nome deve conter apenas letras e espaços.',

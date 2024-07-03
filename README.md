@@ -7,6 +7,81 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+
+## Sobre o sistema
+
+Sistema com uma implementação de autenticação simples do laravel e com  cadastro de hotéis e quartos.
+
+Faça o seu registro ou login com uma conta criada e cadastre os seus hotéis, para cadastro de um quarto é necessário haver registro de pelo menos um hotel para vincular.
+
+Caso seja necessário para teste, rode o item 10° do passo a passo de instalação abaixo para preenchimento com dados de teste de hotéis e quartos.
+
+Implementado com o laravel 11  e php 8.2, utilizando o Vue.Js e Tailwind CSS para o front-end e conectando o front e back-end através do Inertia.
+
+## Instalação
+
+ - Requisitos:
+        PHP >= 8.2
+        Composer
+        Banco de dados Mysql ou outro suportado pelo Laravel
+        Extensões PHP necessárias (geralmente incluídas no Laravel)
+        Node.js e npm
+
+ - Passos para instalação:
+
+    1° - Clone o repositório: 
+    
+        git clone https://github.com/Marcelo-Henrique-12/hotelRoomsProject.git
+    
+    2° - Navegue até a pasta do projeto:
+
+        cd hotelRoomsProject
+
+    3° - Instale as dependências do Composer:
+
+        composer instal
+
+    4° - Configure o ambiente:
+
+        De o comando cp .env.example .env, e coloque o nome do usuário do banco de dados e senha, caso seja necessário, crie o banco com o mesmo nome hotelroomproject previamente.
+
+    5° - Gere a chave de aplicativo do Laravel:
+
+        php artisan key:generate
+
+    6° - Instalação das Dependências JavaScript: 
+
+        npm install
+
+    7° - Compilação dos Ativos: 
+
+        npm run dev
+        
+
+    8° - Execute as migrações do banco de dados
+
+        php artisan migrate
+
+    9° - Inicie o servidor de desenvolvimento (opcional)
+
+        php artisan serve
+
+
+    10° - Alimente com dados de teste os hoteis e quartos com seeders e factories (OPCIONAL)
+
+        php artisan db:seed;
+
+        Para cada um separadamente:
+
+        php artisan db:seed --class=HotelSeeder
+        php artisan db:seed --class=RoomSeeder
+ 
+
+    11° - Execute os testes (opcional)
+
+        php artisan test
+
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:

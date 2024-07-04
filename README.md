@@ -78,10 +78,10 @@ Implementado com o laravel 11  e php 8.2, utilizando o Vue.Js e Tailwind CSS par
         php artisan db:seed --class=RoomSeeder
  
 
-    11° - Execute os testes (opcional)
-        a) Crie um banco para testes com o nome hotelroomproject_testing, e coloque no campo DB_DATABASE do arquivo .env, para evitar conflitos    com o banco original;
+    
+    11° - Execute os testes (opcional), Primeiro crie um banco para testes com o nome hotelroomproject_testing, e coloque no campo DB_DATABASE do arquivo .env, para evitar conflitos com o banco original, em seguida execute o comando:
 
-        b) php artisan test
+         php artisan test
 
 
 ## About Laravel

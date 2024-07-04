@@ -39,7 +39,7 @@ Implementado com o laravel 11  e php 8.2, utilizando o Vue.Js e Tailwind CSS par
 
     3° - Instale as dependências do Composer:
 
-        composer instal
+        composer install
 
     4° - Configure o ambiente:
 
@@ -79,9 +79,9 @@ Implementado com o laravel 11  e php 8.2, utilizando o Vue.Js e Tailwind CSS par
  
 
     11° - Execute os testes (opcional)
-        a - Crie um banco para testes com o nome hotelroomproject_testing, e coloque no campo DB_DATABASE do arquivo .env, para evitar conflitos    com o banco original;
+        a) Crie um banco para testes com o nome hotelroomproject_testing, e coloque no campo DB_DATABASE do arquivo .env, para evitar conflitos    com o banco original;
 
-        b - php artisan test
+        b) php artisan test
 
 
 ## About Laravel

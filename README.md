@@ -12,9 +12,9 @@
 
 Sistema com uma implementação de autenticação simples do laravel e com  cadastro de hotéis e quartos.
 
-Faça o seu registro ou login com uma conta criada e cadastre os seus hotéis, para cadastro de um quarto é necessário haver registro de pelo menos um hotel para vincular.
+Faça o seu registro ou login caso possua uma conta e cadastre os seus hotéis, para cadastro de um quarto é necessário haver registro de pelo menos um hotel para vincular.
 
-Caso seja necessário para teste, rode o item 10° do passo a passo de instalação abaixo para preenchimento com dados de teste de hotéis e quartos.
+Caso seja necessário para teste, rode o item 10° do passo a passo de instalação abaixo para preenchimento com dados de teste através de seeders e factories para o preenchimento de hotéis e quartos.
 
 Implementado com o laravel 11  e php 8.2, utilizando o Vue.Js e Tailwind CSS para o front-end e conectando o front e back-end através do Inertia.
 
@@ -79,8 +79,9 @@ Implementado com o laravel 11  e php 8.2, utilizando o Vue.Js e Tailwind CSS par
  
 
     11° - Execute os testes (opcional)
+        a - Crie um banco para testes com o nome hotelroomproject_testing, e coloque no campo DB_DATABASE do arquivo .env, para evitar conflitos    com o banco original;
 
-        php artisan test
+        b - php artisan test
 
 
 ## About Laravel

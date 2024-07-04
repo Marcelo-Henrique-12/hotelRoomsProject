@@ -38,7 +38,7 @@ const fetchAddress = async () => {
             return;
         }
 
-        form.address = data.logradouro;
+        form.address = `${data.logradouro}, ${data.bairro}`;
         form.city = data.localidade;
         form.state = data.uf;
         cepError.value = '';

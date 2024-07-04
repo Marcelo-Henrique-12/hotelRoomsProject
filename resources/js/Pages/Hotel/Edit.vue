@@ -45,7 +45,7 @@ const fetchAddress = async () => {
             return;
         }
 
-        form.address = data.logradouro;
+        form.address = `${data.logradouro}, ${data.bairro}`;
         form.city = data.localidade;
         form.state = data.uf;
         cepError.value = '';
@@ -130,7 +130,7 @@ const formatZipCode = () => {
 
                             <!-- Quando digitar o Cep, irá fazer a requisição e retornar os dados de endereço abaixo preenchidos caso encontrar,
                              caso contrário irá retornar um erro -->
-                             
+
                             <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                     for="city">
